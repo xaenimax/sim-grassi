@@ -20,6 +20,9 @@ abstract public class AgentJade extends Agent {
 	public final static String CMDDEL = "del";
 	public final static String CMDFAIL = "fail";
 	public final static String CMDOK = "ok";
+	//--------------
+	public final static String CMDPBL = "publish";
+	public final static String CMDSBC = "subscribe";
 	
 	public AgentJade(){
 	}

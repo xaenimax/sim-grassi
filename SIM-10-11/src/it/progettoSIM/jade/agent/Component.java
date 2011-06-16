@@ -1,5 +1,4 @@
-/* Questa è la classe che deve essere estesa da tutti quei componenti
- * che vogliono utilizzare il tuplespace
+/* Questa è la classe che rappresenta il componente generico per la pubblicazione e sottoscrizione dei servizi
  */
 
 package it.progettoSIM.jade.agent;
@@ -47,6 +46,12 @@ abstract public class Component extends AgentJade{
 		} catch (StaleProxyException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//La funzione invia un messaggio di sottoscrizione al servizio
+	public boolean publish(){
+		ACLMessage msg=AgentJade.createCommandMessage(CMDPBL);
+		msg.addReceiver(this.tsAID);
 	}
 	
 	//La funzione che chiama la out e inserisce una tupla nel tuplespace
