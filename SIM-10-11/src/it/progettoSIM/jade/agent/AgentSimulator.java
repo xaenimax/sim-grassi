@@ -3,6 +3,8 @@
 
 package it.progettoSIM.jade.agent;
 
+import it.progettoSIM.jade.content.Content;
+
 import java.io.IOException;
 
 import jade.tuplespace.Node;
@@ -20,12 +22,12 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 
-abstract public class Component extends AgentJade{
+abstract public class AgentSimulator extends AgentJade{
 	
 	private static int countApp = 1;
 	private AID tsAID;
 	
-	public Component(){
+	public AgentSimulator(){
 		this.setupAppAgent();
 		
 	}
@@ -48,26 +50,21 @@ abstract public class Component extends AgentJade{
 		}
 	}
 	
-	//La funzione invia un messaggio di sottoscrizione al servizio
-	public boolean publish(){
+	//La funzione invia un messaggio di disponibilità allo sblocco del componente successivo
+	public boolean publish(Content cnt){
 		ACLMessage msg=AgentJade.createCommandMessage(CMDPBL);
-		msg.addReceiver(this.tsAID);
-	}
-	
-	//La funzione che chiama la out e inserisce una tupla nel tuplespace
-	public boolean out(Tuple tuple){
-		ACLMessage msg = AgentJade.createCommandMessage(CMDOUT);
-		msg.addReceiver(this.tsAID);
+		msg.addReceiver(this.tsAID);//aggiunto slot receiver
 		try {
-			msg.setContentObject(tuple);
+			msg.setContentObject(cnt);
 			this.send(msg);
 			return true;
-		} catch (IOException e) {
+		}catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
 	}
+	
+	
 	
 	//La funzione che chiama la rd sul tuplespace e si blocca in attesa di risposta
 	public Object rd(Tuple template, long millis){
